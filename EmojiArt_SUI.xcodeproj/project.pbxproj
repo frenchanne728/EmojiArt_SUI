@@ -70,9 +70,9 @@
 			isa = PBXGroup;
 			children = (
 				F3B6F1D224FAC92A00064456 /* Common */,
-				F3B6F1D124FAC92400064456 /* View */,
-				F3B6F1D024FAC91800064456 /* View Model */,
 				F3B6F1CF24FAC8E600064456 /* Model */,
+				F3B6F1D024FAC91800064456 /* View Model */,
+				F3B6F1D124FAC92400064456 /* View */,
 				F36E8B8524F6AA33000194CE /* EmojiArt_SUI.entitlements */,
 				F36E8B7B24F6A942000194CE /* AppDelegate.swift */,
 				F36E8B7924F6A942000194CE /* SceneDelegate.swift */,
@@ -112,8 +112,8 @@
 		F3B6F1D124FAC92400064456 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F36E8B7624F6A941000194CE /* AnimatableSystemFontModifier.swift */,
 				F36E8B7524F6A941000194CE /* EmojiArtDocumentView.swift */,
+				F36E8B7624F6A941000194CE /* AnimatableSystemFontModifier.swift */,
 				F36E8B7824F6A942000194CE /* OptionalImage.swift */,
 			);
 			path = View;

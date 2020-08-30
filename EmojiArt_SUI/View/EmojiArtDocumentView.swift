@@ -31,10 +31,19 @@ struct EmojiArtDocumentView: View {
                             .offset(self.panOffset)
                     )
                         .gesture(self.doubleTapToZoom(in: geometry.size))
+                        .onTapGesture{self.document.deSelectAllEmojis()
+                    }
+
                     ForEach(self.document.emojis) { emoji in
-                        Text(emoji.text)
-                            .font(animatableWithSize: emoji.fontSize * self.zoomScale)
-                            .position(self.position(for: emoji, in: geometry.size))
+                            Text(emoji.text)
+                                .background(self.document.isEmojiSelected(emoji) ?
+                                    Color.yellow : Color.clear)
+                                .font(animatableWithSize: emoji.fontSize * self.zoomScale)
+                                .cornerRadius( 100 )
+                                .position(self.position(for: emoji, in: geometry.size))
+                                .onTapGesture{
+                                    self.document.selectEmoji(emoji)
+                                }
                     }
                 }
                 .clipped()

@@ -10,6 +10,7 @@ import SwiftUI
 
 class EmojiArtDocument: ObservableObject
 {
+    @Published var selected: Set<EmojiArt.Emoji> = []
     static let palette: String = "⭐️⛈🍎🌏🥨⚾️"
     
     // @Published // workaround for property observer problem with property wrappers
@@ -70,6 +71,28 @@ class EmojiArtDocument: ObservableObject
                 }
             }
         }
+    }
+    
+    func selectEmoji(_ emoji: EmojiArt.Emoji) {
+        if selected.contains(matching: emoji) {
+            print("inside if - remove")
+            let newMember = selected.remove(emoji)
+            print (" Remove result = \(String(describing: newMember ?? nil))")
+        } else {
+            print("inside else - insert")
+            let (inserted, newMember) = selected.insert(emoji)
+            print("\(newMember.text) Selected? \(inserted)")
+        }
+        print("Selected emojis: \(selected)")
+        print("Emoji selected? \(isEmojiSelected(emoji)) \(emoji.text)")
+    }
+    
+    func isEmojiSelected(_ emoji: EmojiArt.Emoji) -> Bool {
+        return selected.contains(matching: emoji)
+    }
+    
+    func deSelectAllEmojis() {
+        selected.removeAll()
     }
 }
 
