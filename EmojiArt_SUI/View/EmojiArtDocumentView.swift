@@ -53,6 +53,14 @@ struct EmojiArtDocumentView: View {
                                         self.document.moveSelectedEmojis(by: lastOffset.translation)
                                 }
                             )
+                            .contextMenu {
+                                Button(action: {
+                                    self.document.deleteSelectedEmojis()
+                                }) {
+                                    Text("Move to Trash 🗑")
+                                }
+                            }
+
                     }
                 }
                 .clipped()
@@ -71,7 +79,7 @@ struct EmojiArtDocumentView: View {
             }
         }
     }
-    
+
     @State private var steadyStateZoomScale: CGFloat = 1.0
     @GestureState private var gestureZoomScale: CGFloat = 1.0
     

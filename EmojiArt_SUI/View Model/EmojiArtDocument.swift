@@ -97,6 +97,15 @@ class EmojiArtDocument: ObservableObject
         return selected.isEmpty
     }
     
+    func deleteSelectedEmojis() {
+        for emoji in selected {
+            selected.remove(at: selected.firstIndex(matching: emoji)!)
+            if let index = emojiArt.emojis.firstIndex(matching: emoji) {
+                emojiArt.emojis.remove(at: index)
+            }
+        }
+    }
+
     func deSelectAllEmojis() {
         selected.removeAll()
     }
