@@ -43,19 +43,21 @@ struct EmojiArtDocumentView: View {
                             .offset(x: self.document.isEmojiSelected(emoji) ? self.dragOffset.width : 0,
                                     y: self.document.isEmojiSelected(emoji) ? self.dragOffset.height : 0)
                             .position(self.position(for: emoji, in: geometry.size))
-                            .onTapGesture{self.document.selectEmoji(emoji)}
+                            .onTapGesture{self.document.toggleEmojiSelection(emoji)}
                             .gesture(
                                 DragGesture()
                                     .updating(self.$dragOffset, body: { (value, state, transaction) in
-                                        if !self.document.isEmojiSelected(emoji) {
-                                            self.document.selectEmoji(emoji)
-                                        }
+//                                        if !self.document.isEmojiSelected(emoji) {
+//                                            self.document.toggleEmojiSelection(emoji)
+//                                        }
                                         state = value.translation
                                     })
                                     .onEnded { lastOffset in
                                         self.document.moveEmoji(emoji,
                                             by: lastOffset.translation)
-                            })
+                                        
+                                    }
+                            )
                     }
                 }
                 .clipped()

@@ -47,6 +47,12 @@ class EmojiArtDocument: ObservableObject
         }
     }
     
+    func moveSelectedEmojis(by offset: CGSize) {
+        for emoji in selected {
+            moveEmoji(emoji, by: offset)
+        }
+    }
+    
     func scaleEmoji(_ emoji: EmojiArt.Emoji, by scale: CGFloat) {
         if let index = emojiArt.emojis.firstIndex(matching: emoji) {
             emojiArt.emojis[index].size = Int((CGFloat(emojiArt.emojis[index].size) * scale).rounded(.toNearestOrEven))
@@ -73,22 +79,22 @@ class EmojiArtDocument: ObservableObject
         }
     }
     
-    func selectEmoji(_ emoji: EmojiArt.Emoji) {
+    func toggleEmojiSelection(_ emoji: EmojiArt.Emoji) {
+        print("\(#function), line: \(#line) Selected emojis: \(selected)")
         if selected.contains(matching: emoji) {
-            print("inside if - remove")
-            let newMember = selected.remove(emoji)
-            print (" Remove result = \(String(describing: newMember ?? nil))")
+            selected.remove(at: selected.firstIndex(matching: emoji)!)
         } else {
-            print("inside else - insert")
-            let (inserted, newMember) = selected.insert(emoji)
-            print("\(newMember.text) Selected? \(inserted)")
+            selected.insert(emoji)
         }
-        print("Selected emojis: \(selected)")
-        print("Emoji selected? \(isEmojiSelected(emoji)) \(emoji.text)")
+        print("\(#function), line: \(#line) Selected emojis: \(selected)")
     }
     
     func isEmojiSelected(_ emoji: EmojiArt.Emoji) -> Bool {
         return selected.contains(matching: emoji)
+    }
+    
+    func noEmojisSelected() -> Bool {
+        return selected.isEmpty
     }
     
     func deSelectAllEmojis() {
