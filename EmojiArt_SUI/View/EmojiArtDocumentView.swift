@@ -38,7 +38,11 @@ struct EmojiArtDocumentView: View {
                         Text(emoji.text)
                             .background(self.document.isEmojiSelected(emoji) ?
                                 Color.yellow : Color.clear)
-                            .font(animatableWithSize: emoji.fontSize * self.zoomScale)
+                            .font(animatableWithSize: emoji.fontSize *
+                                (self.document.isEmojiSelected(emoji) ?
+                                    self.emojiZoomScale :
+                                    self.zoomScale)
+                                )
                             .cornerRadius( 100 )
                             .offset(x: self.document.isEmojiSelected(emoji) ? self.dragOffset.width : 0,
                                     y: self.document.isEmojiSelected(emoji) ? self.dragOffset.height : 0)
@@ -65,7 +69,7 @@ struct EmojiArtDocumentView: View {
                 }
                 .clipped()
                 .gesture(self.panGesture())
-                .gesture(self.zoomGesture())
+                .gesture(self.zoomEmojiGesture())
                 .edgesIgnoringSafeArea([.horizontal, .bottom])
                 .onDrop(of: ["public.image","public.text"], isTargeted: nil) { providers, location in
                     // SwiftUI bug (as of 13.4)? the location is supposed to be in our coordinate system
@@ -97,6 +101,34 @@ struct EmojiArtDocumentView: View {
             }
     }
     
+    @State private var steadyStateEmojiZoomScale: CGFloat = 1.0
+    @GestureState private var gestureEmojiZoomScale: CGFloat = 1.0
+
+    private var emojiZoomScale: CGFloat {
+        steadyStateEmojiZoomScale * gestureEmojiZoomScale
+    }
+
+    private func zoomEmojiGesture() -> some Gesture {
+        if self.document.noEmojisSelected() {
+            return MagnificationGesture()
+                .updating($gestureZoomScale) { latestGestureScale, gestureZoomScale, transaction in
+                    gestureZoomScale = latestGestureScale
+            }
+            .onEnded { finalGestureScale in
+                self.steadyStateZoomScale *= finalGestureScale
+            }
+        } else {
+            return MagnificationGesture()
+                .updating($gestureEmojiZoomScale) { latestEmojiGestureScale, gestureEmojiZoomScale, transaction in
+                    gestureEmojiZoomScale = latestEmojiGestureScale
+            }
+            .onEnded { finalEmojiGestureScale in
+                self.steadyStateEmojiZoomScale *= finalEmojiGestureScale
+                self.document.scaleSelectedEmojis(by: finalEmojiGestureScale)
+            }
+        }
+    }
+
     @State private var steadyStatePanOffset: CGSize = .zero
     
     @GestureState private var gesturePanOffset: CGSize = .zero
