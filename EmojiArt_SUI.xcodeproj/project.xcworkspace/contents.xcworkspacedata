@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/afrench/Developer/EmojiArt_SUI/EmojiArt_SUI/AppDelegate.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/afrench/Developer/EmojiArt_SUI/EmojiArt_SUI/SceneDelegate.swift">
+   </FileRef>
+   <FileRef
       location = "self:EmojiArt_SUI.xcodeproj">
    </FileRef>
 </Workspace>
