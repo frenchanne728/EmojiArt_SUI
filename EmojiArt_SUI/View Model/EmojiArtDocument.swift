@@ -59,6 +59,12 @@ class EmojiArtDocument: ObservableObject
         }
     }
 
+    func scaleSelectedEmojis(by scale: CGFloat) {
+        for emoji in selected {
+            scaleEmoji(emoji, by: scale)
+        }
+    }
+    
     func setBackgroundURL(_ url: URL?) {
         emojiArt.backgroundURL = url?.imageURL
         fetchBackgroundImageData()
